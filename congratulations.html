@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Congratulations - SDG Quiz</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="congratulations-page">
+  <div class="container">
+    <h1>Congratulations!</h1>
+    <p id="final-score"></p>
+    <h2>Leaderboard</h2>
+    <ul id="leaderboard"></ul>
+    <button onclick="restartQuiz()">Restart Quiz</button>
+  </div>
+
+  <script>
+    // Get the username and total score from localStorage
+    const username = localStorage.getItem('username');
+    const totalScore = localStorage.getItem('totalScore');
+
+    // Display the user's final score
+    document.getElementById('final-score').textContent = `Well done, ${username}! Your total score is ${totalScore}.`;
+
+    // Retrieve the leaderboard from localStorage, or initialize it as an empty array
+    const leaderboard = JSON.parse(localStorage.getItem('leaderboard')) || [];
+
+    // Add the current user and their score to the leaderboard
+    leaderboard.push({ username, score: totalScore });
+    leaderboard.sort((a, b) => b.score - a.score); // Sort the leaderboard by score in descending order
+
+    // Save the updated leaderboard back to localStorage
+    localStorage.setItem('leaderboard', JSON.stringify(leaderboard));
+
+    // Display the leaderboard on the page
+    const leaderboardList = document.getElementById('leaderboard');
+    leaderboard.forEach((entry) => {
+      leaderboardList.innerHTML += `<li>${entry.username}: ${entry.score}</li>`;
+    });
+
+    // Function to restart the quiz by removing the total score and redirecting to the login page
+    function restartQuiz() {
+      localStorage.removeItem('totalScore');
+      window.location.href = 'login.html';
+    }
+  </script>
+</body>
+</html>

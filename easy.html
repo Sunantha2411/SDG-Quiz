@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Easy Level - SDG Quiz</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <body class="easy-quiz-page">
+  <div class="container">
+    <h1>SDG Quiz - Easy Level</h1>
+    <div id="questions-container"></div>
+    <button class="submit-btn">Submit</button>
+  </div>
+</body>
+
+  <script>
+    if (!localStorage.getItem('username')) {
+      window.location.href = 'login.html';
+    }
+
+    const questions = [
+      { question: 'What does "SDG" stand for?', options: ['Sustainable Development Goals', 'Social Development Guidelines', 'Standard Development Goals'], correct: 'A' },
+      { question: 'What is the main goal of SDG 4?', options: ['End hunger', 'Quality Education for all', 'Combat climate change'], correct: 'B' },
+      { question: 'Which of the following is a key SDG target?', options: ['Gender Equality', 'Reduce pollution', 'End conflicts'], correct: 'A' },
+      { question: 'SDG 3 focuses on?', options: ['Good Health and Well-Being', 'Clean Energy', 'Climate Action'], correct: 'A' },
+      { question: 'SDG 5 is focused on?', options: ['Climate Action', 'Gender Equality', 'Industry Innovation'], correct: 'B' }
+    ];
+
+    const questionContainer = document.getElementById('questions-container');
+    questions.forEach((item, index) => {
+      questionContainer.innerHTML += `
+        <div class="question">
+          <p>${index + 1}. ${item.question}</p>
+          <div class="option">
+            <input type="radio" name="question${index}" value="A" id="q${index}A">
+            <label for="q${index}A">${item.options[0]}</label>
+          </div>
+          <div class="option">
+            <input type="radio" name="question${index}" value="B" id="q${index}B">
+            <label for="q${index}B">${item.options[1]}</label>
+          </div>
+          <div class="option">
+            <input type="radio" name="question${index}" value="C" id="q${index}C">
+            <label for="q${index}C">${item.options[2]}</label>
+          </div>
+        </div>`;
+    });
+
+    document.querySelector('.submit-btn').addEventListener('click', function () {
+      let score = 0;
+      questions.forEach((item, index) => {
+        const selected = document.querySelector(`input[name="question${index}"]:checked`);
+        if (selected && selected.value === item.correct) {
+          score++;
+        }
+      });
+
+      if (score > 2) {
+        const totalScore = parseInt(localStorage.getItem('totalScore')) || 0;
+        localStorage.setItem('totalScore', totalScore + score);
+        alert(`You scored ${score}/5. Well done! Proceeding to Medium Level.`);
+        window.location.href = 'medium.html';
+      } else {
+        alert(`You scored ${score}/5. You need at least 3 correct answers to move to the next level.`);
+      }
+    });
+  </script>
+</body>
+</html>

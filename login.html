@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - SDG Quiz</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <body class="login-page">
+  <div class="container">
+    <h1>Welcome to the SDG Quiz</h1>
+    <form id="login-form">
+      <input type="text" id="username" placeholder="Enter your name" required>
+      <button type="submit">Start Quiz</button>
+    </form>
+  </div>
+</body>
+
+  <script>
+    document.getElementById('login-form').addEventListener('submit', function (e) {
+      e.preventDefault();
+      const username = document.getElementById('username').value.trim();
+      if (username) {
+        localStorage.setItem('username', username);
+        localStorage.setItem('totalScore', 0); // Reset total score
+        window.location.href = 'easy.html'; // Redirect to Easy level
+      }
+    });
+  </script>
+</body>
+</html>
